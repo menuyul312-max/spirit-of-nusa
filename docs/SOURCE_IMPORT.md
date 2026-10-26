@@ -22,14 +22,16 @@ On a networked machine with **Python 3.10+, Git and authenticated GitHub access*
 ```sh
 python publish_spirit_of_nusa.py Spirit_of_Nusa_T089_Terrain_Polish.zip
 # Review dry-run report; if it passes, publish only to integrator/bootstrap-source:
-python publish_spirit_of_nusa.py Spirit_of_Nusa_T089_Terrain_Polish.zip --push
+python publish_spirit_of_nusa.py Spirit_of_Nusa_T089_Terrain_Polish.zip --push --asset-rights-reviewed
 ```
+
+IMPORTANT — LICENSE REVIEW: The updated importer refuses public push of the four unresolved DINOv3/Gemini assets unless the operator has verified distribution rights and explicitly supplies `--asset-rights-reviewed`. See `docs/ASSET_LICENSE_REVIEW.md`. Do not use this flag without genuine clearance. The updated Publish Kit v2 is available in the integrator conversation.
 
 The script:
 1. checks the exact ZIP hash, safely extracts files, skips signing keys and cache, and respects the branch .gitignore;
 2. clones the existing `integrator/bootstrap-source` branch;
 3. refuses to overwrite existing files or proceed with an incomplete import;
-4. creates a single commit and **non-force-pushes only the integration branch**;
+4. blocks public uploads with flagged assets until license clearance is acknowledged, then creates a single commit and **non-force-pushes only the integration branch**;
 5. prints the existing draft PR URL for code review.
 
 Do **not** push the ZIP itself or replace `main`, `README.md`, `.gitignore` or `docs/PROJECT_STATUS.md` with files from the archive. A successful local Git test is not a successful GitHub push.
