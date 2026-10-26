@@ -38,8 +38,25 @@ jobs:
       - name: Syntax check for Python tooling
         run: python -m compileall -q tools tests
 
-      - name: Require license manifest
-        run: test -f licenses/manifest.csv
+      - name: Reject unresolved asset rights in manifest
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          import sys
+          path = Path("licenses/manifest.csv")
+          if not path.is_file():
+              sys.exit("Missing licenses/manifest.csv")
+          flags = ("belum diverifikasi", "konfirmasi pemilik")
+          with path.open(encoding="utf-8-sig", newline="") as handle:
+              unresolved = [r["file"] for r in csv.DictReader(handle)
+                            if any(flag in (r.get("lisensi", "") + " " + r.get("catatan", "")).lower()
+                                   for flag in flags)]
+          if unresolved:
+              for filename in unresolved:
+                  print("::error::Unverified asset rights: " + filename)
+              sys.exit(f"{len(unresolved)} assets need licensing review before merging")
+          PY
 
 # This job validates Python code and baseline file presence only.
 # Godot runtime, shader rendering and Android hardware performance must be checked separately.
