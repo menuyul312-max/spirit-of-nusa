@@ -1,0 +1,41 @@
+# Godot 4 - generated local data
+.godot/
+*.translation
+game/android/build/
+
+# Build output and private signing keys
+build/
+*.apk
+*.aab
+*.keystore
+*.jks
+
+# Python generated output
+__pycache__/
+*.pyc
+.venv/
+
+# Blender generated backups
+*.blend1
+*.blend2
+
+# Local OS and IDE state
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
+.claude/settings.local.json
+
+# Generated build-time copies, not canonical data
+game/data/
+audio-src/soundfonts/
+
+# Temporary font import artifacts
+game/ui/fonts/.*.ttf.*
+
+# Raw concept exports excluded in original source tree
+art-src/konsep/*.fbx
+art-src/konsep/*.fbm/
+art-src/konsep/*.glb
+!art-src/konsep/aset/
